@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+@theme {
+  --font-poppins: Poppins;
+  --font-roboto: Roboto;
+  --font-audiowide: Audiowide;
+}
