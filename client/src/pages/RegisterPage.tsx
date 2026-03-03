@@ -1,14 +1,12 @@
 import { TextInput, Button } from "@mantine/core";
-import { IconAt, IconEyeFilled, IconEyeOff } from "@tabler/icons-react";
+import { IconAt } from "@tabler/icons-react";
 import { Link } from "@tanstack/react-router";
-import { useState } from "react";
-import axios, { isAxiosError } from "axios";
+import axios from "axios";
 import { toast } from "react-toastify";
 
-function RegisterPage() {
-  const [isVisible1, setIsVisible1] = useState(true);
-  const [isVisible2, setIsVisible2] = useState(true);
+import PasswordFieldInput from "../components/PasswordFieldInput";
 
+function RegisterPage() {
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -35,15 +33,8 @@ function RegisterPage() {
     }
   };
 
-  const handlePwdClick1 = () => setIsVisible1(!isVisible1);
-  const handlePwdClick2 = () => setIsVisible2(!isVisible2);
-
   const landingImg = "../src/assets/landing-img.png";
-  const icon = <IconAt size={16} onClick={handlePwdClick1} />;
-  const eyefilled1 = <IconEyeFilled size={16} onClick={handlePwdClick1} />;
-  const eyefilled2 = <IconEyeFilled size={16} onClick={handlePwdClick2} />;
-  const eyeclosed1 = <IconEyeOff size={16} onClick={handlePwdClick1} />;
-  const eyeclosed2 = <IconEyeOff size={16} onClick={handlePwdClick2} />;
+  const icon = <IconAt size={16} />;
 
   return (
     <>
@@ -75,8 +66,6 @@ function RegisterPage() {
                 placeholder='Input Username'
                 name='username'
                 required
-                // value={regData.username}
-                // onChange={handleChange}
               />
             </span>
             <span>
@@ -85,8 +74,6 @@ function RegisterPage() {
                 placeholder='Input First name'
                 name='firstName'
                 required
-                // value={regData.firstName}
-                // onChange={handleChange}
               />
             </span>
             <span>
@@ -95,8 +82,6 @@ function RegisterPage() {
                 placeholder='Input Last name'
                 name='lastName'
                 required
-                // value={regData.lastName}
-                // onChange={handleChange}
               />
             </span>
             <span>
@@ -107,34 +92,10 @@ function RegisterPage() {
                 placeholder='Your email'
                 name='email'
                 required
-                // value={regData.email}
-                // onChange={handleChange}
               />
             </span>
-            <span>
-              <TextInput
-                label='Password'
-                placeholder='Input Password'
-                type={isVisible1 ? "password" : "text"}
-                rightSection={isVisible1 ? eyefilled1 : eyeclosed1}
-                name='password1'
-                required
-                // value={regData.password1}
-                // onChange={handleChange}
-              />
-            </span>
-            <span>
-              <TextInput
-                label='Re-Password'
-                placeholder='Re-Password'
-                rightSection={isVisible2 ? eyefilled2 : eyeclosed2}
-                type={isVisible2 ? "password" : "text"}
-                name='password2'
-                required
-                // value={regData.password2}
-                // onChange={handleChange}
-              />
-            </span>
+            <span>{PasswordFieldInput({ name: "password1" })}</span>
+            <span>{PasswordFieldInput({ name: "password2" })}</span>
             <span className='pt-3 flex flex-col items-center'>
               <Button fullWidth type='submit'>
                 Register

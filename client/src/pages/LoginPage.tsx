@@ -1,6 +1,8 @@
 import { TextInput, Button } from "@mantine/core";
 import { Link } from "@tanstack/react-router";
 
+import PasswordFieldInput from "../components/PasswordFieldInput";
+
 function LoginPage() {
   const landingImg = "../src/assets/landing-img.png";
   return (
@@ -29,9 +31,11 @@ function LoginPage() {
             <span>
               <TextInput label='Username' placeholder='Input Username' />
             </span>
-            <span>
+            {/* <span>
               <TextInput label='Password' placeholder='Input Password' />
-            </span>
+            </span> */}
+            <span>{PasswordFieldInput({ name: "password1" })}</span>
+            <span>{PasswordFieldInput({ name: "password2" })}</span>
             <span className='pt-3 flex flex-col items-center'>
               <Button fullWidth>Register</Button>
               <p className='pt-2'>
