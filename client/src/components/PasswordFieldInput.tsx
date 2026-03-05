@@ -13,9 +13,6 @@ function PasswordFieldInput({ name }: PropsType) {
   const handlePwdClick = () => {
     setIsVisible(!isVisible);
   };
-  //   const handlePwdClick = () => {
-  //     setIsVisible(!isVisible);
-  //   };
 
   //   const icon = <IconAt size={16} onClick={handlePwdClick} />;
   const eyefilled = <IconEyeFilled size={16} onClick={handlePwdClick} />;
