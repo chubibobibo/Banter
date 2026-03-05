@@ -8,7 +8,8 @@ import { toast } from "react-toastify";
 
 function LoginPage() {
   const navigate = useNavigate({ from: "/login" });
-  const handleSubmit = async (e: HTMLFormElement) => {
+  // e: typed as a submit event from an HTML form element
+  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData);
@@ -62,9 +63,6 @@ function LoginPage() {
                 required
               />
             </span>
-            {/* <span>
-              <TextInput label='Password' placeholder='Input Password' />
-            </span> */}
             <span>{PasswordFieldInput({ name: "password" })}</span>
             <span className='pt-3 flex flex-col items-center'>
               <Button fullWidth type='submit'>
