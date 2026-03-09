@@ -3,10 +3,12 @@ import { IconAt } from "@tabler/icons-react";
 import { Link } from "@tanstack/react-router";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useNavigate } from "@tanstack/react-router";
 
 import PasswordFieldInput from "../components/PasswordFieldInput";
 
 function RegisterPage() {
+  const navigate = useNavigate({ from: "/register" });
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -17,10 +19,10 @@ function RegisterPage() {
     } else {
       // create a new key for pwd to sent to API
       data.password = data.password1;
-      // const api = await axios.create({ baseURL: "http://localhost:3001/" });
       try {
         await axios.post("/api/auth/registerUser", data);
         toast.success("User registered successfully");
+        navigate({ to: "/login" });
         return null;
       } catch (err) {
         if (axios.isAxiosError(err)) {
@@ -39,17 +41,56 @@ function RegisterPage() {
   return (
     <>
       <div className='flex flex-col h-screen md:grid md:grid-cols-2 md:h-screen'>
-        <section className='hidden md:flex bg-amber-400'>
-          <header className='flex justify-center w-screen'>
+        <section className='hidden md:flex md:flex-col md:items-center md:gap-5 bg-amber-400 '>
+          <header className='flex justify-center w-screen text-5xl font-roboto pt-40 text-gray-700'>
             Welcome to Banter
           </header>
+          {/* <section> */}
+          <form
+            className='flex flex-col w-6/12 gap-4'
+            method='POST'
+            onSubmit={handleSubmit}
+          >
+            <TextInput
+              label='Username'
+              placeholder='Input Username'
+              name='username'
+              required
+            />
+            <TextInput
+              label='First name'
+              placeholder='Input First name'
+              name='firstName'
+              required
+            />
+            <TextInput
+              label='Last name'
+              placeholder='Input Last name'
+              name='lastName'
+              required
+            />
+            <TextInput
+              label='Email'
+              placeholder='Input Email'
+              name='email'
+              required
+            />
+            {<PasswordFieldInput name='password1' />}
+            {<PasswordFieldInput name='password2' />}
+            <section className='flex justify-start'>
+              <Button type='submit' justify='center'>
+                Register
+              </Button>
+            </section>
+          </form>
         </section>
+        {/* </section> */}
         {/** Logo side */}
         <section className='flex items-center pt-15 bg-blue-400 '>
           <img src={landingImg} className='w-screen -mt-20' />
         </section>
         {/** login form */}
-
+        {/** MOBILE */}
         <form
           method='post'
           //   autoComplete='on'
