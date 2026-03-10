@@ -8,17 +8,15 @@ interface PropsType {
 
 function PasswordFieldInput({ name }: PropsType) {
   const [isVisible, setIsVisible] = useState(true);
-  //   const [isVisible, setIsVisible] = useState(true);
 
   const handlePwdClick = () => {
     setIsVisible(!isVisible);
   };
 
-  //   const icon = <IconAt size={16} onClick={handlePwdClick} />;
+  // components as variables to dynamically render depending on the state (isVisible)
   const eyefilled = <IconEyeFilled size={16} onClick={handlePwdClick} />;
-  //   const eyefilled2 = <IconEyeFilled size={16} onClick={handlePwdClick2} />;
   const eyeclosed = <IconEyeOff size={16} onClick={handlePwdClick} />;
-  //   const eyeclosed2 = <IconEyeOff size={16} onClick={handlePwdClick2} />;
+
   return (
     <>
       <TextInput
@@ -28,6 +26,7 @@ function PasswordFieldInput({ name }: PropsType) {
         rightSection={isVisible ? eyefilled : eyeclosed}
         name={name}
         required
+        className='cursor-pointer'
       />
     </>
   );
