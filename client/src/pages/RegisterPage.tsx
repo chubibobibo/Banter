@@ -3,24 +3,27 @@ import { IconAt } from "@tabler/icons-react";
 import { Link } from "@tanstack/react-router";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useNavigate } from "@tanstack/react-router";
 
 import PasswordFieldInput from "../components/PasswordFieldInput";
 
 function RegisterPage() {
+  const navigate = useNavigate({ from: "/register" });
+  // e: typed as a submit event from an HTML form element
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData);
+    const formData = new FormData(e.currentTarget); // create new formData with data from input targets
+    const data = Object.fromEntries(formData); // convert formData to objects
     //check all password match
     if (data.password1 !== data.password2) {
       toast.error("Passwords do not match");
     } else {
       // create a new key for pwd to sent to API
       data.password = data.password1;
-      // const api = await axios.create({ baseURL: "http://localhost:3001/" });
       try {
         await axios.post("/api/auth/registerUser", data);
         toast.success("User registered successfully");
+        navigate({ to: "/login" });
         return null;
       } catch (err) {
         if (axios.isAxiosError(err)) {
@@ -33,82 +36,129 @@ function RegisterPage() {
     }
   };
 
+  // tsx asset elements
   const landingImg = "../src/assets/landing-img.png";
   const icon = <IconAt size={16} />;
 
   return (
     <>
       <div className='flex flex-col h-screen md:grid md:grid-cols-2 md:h-screen'>
-        <section className='hidden md:flex bg-amber-400'>
-          <header className='flex justify-center w-screen'>
+        <section className='hidden md:flex md:flex-col md:items-center md:gap-5 bg-amber-400 '>
+          <header className='flex justify-center w-screen text-5xl font-roboto pt-40 text-gray-600'>
             Welcome to Banter
           </header>
+          {/* <section> */}
+          {/* //DESKTOP */}
+          <form
+            className='flex flex-col w-4/12 gap-4 pb-3 pt-6'
+            method='POST'
+            onSubmit={handleSubmit}
+          >
+            <TextInput
+              label='Username'
+              placeholder='Input Username'
+              name='username'
+              required
+            />
+            <TextInput
+              label='First name'
+              placeholder='Input First name'
+              name='firstName'
+              required
+            />
+            <TextInput
+              label='Last name'
+              placeholder='Input Last name'
+              name='lastName'
+              required
+            />
+            <TextInput
+              label='Email'
+              placeholder='Input Email'
+              name='email'
+              required
+            />
+            {<PasswordFieldInput name='password1' />}
+            {<PasswordFieldInput name='password2' />}
+            <section className='flex justify-start'>
+              <Button type='submit' justify='center'>
+                Register
+              </Button>
+            </section>
+          </form>
+          <p className='pt-2 text-lg'>
+            Already have an account?{" "}
+            <Link to='/login' className='text-blue-800 font-semibold'>
+              Login
+            </Link>
+          </p>
         </section>
+        {/* </section> */}
         {/** Logo side */}
         <section className='flex items-center pt-15 bg-blue-400 '>
           <img src={landingImg} className='w-screen -mt-20' />
         </section>
         {/** login form */}
-
+        {/** MOBILE */}
         <form
           method='post'
           //   autoComplete='on'
-          className='md:hidden h-screen flex flex-col pt-8'
+          className='md:hidden h-screen flex flex-col pt-8 bg-amber-400'
           onSubmit={handleSubmit}
         >
           <header className='text-[1.5rem] font-roboto font-semibold self-center'>
             Welcome to Banter!
           </header>
           <main className='flex flex-col py-10 px-10 gap-3'>
-            <span>
-              <TextInput
-                label='Username'
-                placeholder='Input Username'
-                name='username'
-                required
-              />
-            </span>
-            <span>
-              <TextInput
-                label='First name'
-                placeholder='Input First name'
-                name='firstName'
-                required
-              />
-            </span>
-            <span>
-              <TextInput
-                label='Last name'
-                placeholder='Input Last name'
-                name='lastName'
-                required
-              />
-            </span>
-            <span>
-              <TextInput
-                rightSectionPointerEvents='none'
-                rightSection={icon}
-                label='Your email'
-                placeholder='Your email'
-                name='email'
-                required
-              />
-            </span>
-            <span>{PasswordFieldInput({ name: "password1" })}</span>
-            <span>{PasswordFieldInput({ name: "password2" })}</span>
-            <span className='pt-3 flex flex-col items-center'>
+            {/* <span> */}
+            <TextInput
+              label='Username'
+              placeholder='Input Username'
+              name='username'
+              required
+            />
+            {/* </span> */}
+            {/* <span> */}
+            <TextInput
+              label='First name'
+              placeholder='Input First name'
+              name='firstName'
+              required
+            />
+            {/* </span> */}
+            {/* <span> */}
+            <TextInput
+              label='Last name'
+              placeholder='Input Last name'
+              name='lastName'
+              required
+            />
+            {/* </span> */}
+            {/* <span> */}
+            <TextInput
+              rightSectionPointerEvents='none'
+              rightSection={icon}
+              label='Your email'
+              placeholder='Your email'
+              name='email'
+              required
+            />
+            {/* </span> */}
+            {PasswordFieldInput({ name: "password1" })}
+            {PasswordFieldInput({ name: "password2" })}
+            <section className='pt-3 flex flex-col items-center'>
               <Button fullWidth type='submit'>
                 Register
               </Button>
-              <p className='pt-2'>
-                Already have an account?{" "}
-                <Link to='/login' className='text-blue-800 font-semibold'>
-                  Login
-                </Link>
-              </p>
-            </span>
+            </section>
           </main>
         </form>
+        <p className='pt-2 bg-amber-400 flex justify-center'>
+          Already have an account? {"  "}
+          <Link to='/login' className='text-blue-800 font-semibold pb-4'>
+            Login
+          </Link>
+        </p>
       </div>
     </>
   );
