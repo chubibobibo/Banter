@@ -10,6 +10,7 @@ const { Schema } = mongoose;
 interface IUser extends Document {
   setPassword(password: string): Promise<void>;
   authenticate(): Promise<void>;
+  _id: string;
   username: string;
   firstName: string;
   lastName: string;
@@ -17,7 +18,7 @@ interface IUser extends Document {
   role: string;
 }
 
-const UserSchema = new Schema(
+const UserSchema = new Schema<IUser>(
   {
     username: {
       type: String,
@@ -43,15 +44,10 @@ const UserSchema = new Schema(
       type: String,
       enum: Object.values(roles),
     },
-
-    // password: {
-    //   type: String,
-    //   required: true,
-    // },
   },
   { timestamps: true },
 );
 
 UserSchema.plugin(passportLocalMongoose.default);
 
-export const UserModel = mongoose.model("UserModel", UserSchema);
+export const UserModel = mongoose.model<IUser>("UserModel", UserSchema);
