@@ -1,5 +1,13 @@
 import { createRootRoute, createRoute } from "@tanstack/react-router";
-import { HomeLayoutPage, RegisterPage, LoginPage, LandingPage } from "./utils";
+import {
+  HomeLayoutPage,
+  RegisterPage,
+  LoginPage,
+  LandingPage,
+  UpdateUserPage,
+} from "./utils";
+
+import ProtectPages from "./components/ProtectPages";
 
 // Instantiate the root that will envelop all routes
 const rootRoute = createRootRoute({
@@ -26,9 +34,16 @@ const loginPageRoute = createRoute({
   component: LoginPage,
 });
 
+const updateUserRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/updateUser",
+  component: () => <ProtectPages>UpdateUserPage</ProtectPages>,
+});
+
 // create the route tree that will contain the rootRoute and all the other routes as children
 export const routeTree = rootRoute.addChildren([
   landingPageRoute,
   registerPageRoute,
   loginPageRoute,
+  updateUserRoute,
 ]);
