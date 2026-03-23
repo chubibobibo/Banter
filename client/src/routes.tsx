@@ -37,7 +37,11 @@ const loginPageRoute = createRoute({
 const updateUserRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/updateUser",
-  component: () => <ProtectPages>UpdateUserPage</ProtectPages>,
+  component: () => (
+    <ProtectPages>
+      <UpdateUserPage />
+    </ProtectPages>
+  ),
 });
 
 // create the route tree that will contain the rootRoute and all the other routes as children
