@@ -74,3 +74,44 @@ export const registerValidation = withValidationErrors([
     .isLength({ min: 8 })
     .withMessage("Password must be at least 8 characters"),
 ]);
+
+export const loginValidation = withValidationErrors([
+  body("username")
+    .notEmpty()
+    .withMessage("Username cannot be empty")
+    .isLength({ min: 4 })
+    .withMessage("Username must be at least 4 characters"),
+  body("password")
+    .notEmpty()
+    .withMessage("Password cannot be empty")
+    .isLength({ min: 8 })
+    .withMessage("Password must be at least 8 characters"),
+]);
+
+export const updateUserValidation = withValidationErrors([
+  body("username")
+    .notEmpty()
+    .withMessage("Username Cannot be empty")
+    .isLength({ min: 4 })
+    .withMessage("Username must be at least 4 characters")
+    .custom(async (username, { req }) => {
+      const foundUsername = await UserModel.findOne({ username: username });
+      if (foundUsername && req.user.username !== username) {
+        throw new ExpressError(
+          "Username is already used",
+          StatusCodes.CONFLICT,
+        );
+      }
+    }),
+  body("email")
+    .notEmpty()
+    .withMessage("Email cannot be empty")
+    .isEmail()
+    .withMessage("Must be a valid email")
+    .custom(async (email, { req }) => {
+      const foundEmail = await UserModel.findOne({ email: email });
+      if (foundEmail && req.user?.email !== email) {
+        throw new ExpressError("Email is already in use", StatusCodes.CONFLICT);
+      }
+    }),
+]);

@@ -96,7 +96,7 @@ function LoginPage() {
             <span>{PasswordFieldInput({ name: "password" })}</span>
             <span className='pt-3 flex flex-col items-center'>
               <Button fullWidth type='submit'>
-                Register
+                Login
               </Button>
               <p className='pt-2'>
                 Don't have an account?{" "}
