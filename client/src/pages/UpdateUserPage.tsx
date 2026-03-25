@@ -6,7 +6,7 @@ import {
   Group,
   Paper,
   PasswordInput,
-  Text,
+  // Text,
   TextInput,
   Title,
 } from "@mantine/core";
@@ -17,12 +17,12 @@ function UpdateUserPage() {
     <>
       <Container size={420} my={40}>
         <Title ta='center' className={classes.title}>
-          Welcome back!
+          Update Profile
         </Title>
 
-        <Text className={classes.subtitle}>
+        {/* <Text className={classes.subtitle}>
           Do not have an account yet? <Anchor>Create account</Anchor>
-        </Text>
+        </Text> */}
 
         <Paper withBorder shadow='sm' p={22} mt={30} radius='md'>
           <TextInput
