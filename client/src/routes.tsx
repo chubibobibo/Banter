@@ -5,6 +5,8 @@ import {
   LoginPage,
   LandingPage,
   UpdateUserPage,
+  DashboardLayoutPage,
+  DashboardHome,
 } from "./utils";
 
 import ProtectPages from "./components/ProtectPages";
@@ -34,9 +36,15 @@ const loginPageRoute = createRoute({
   component: LoginPage,
 });
 
-const updateUserRoute = createRoute({
+const dashboardLayout = createRoute({
   getParentRoute: () => rootRoute,
-  path: "/updateUser",
+  path: "dashboard",
+  component: DashboardLayoutPage,
+});
+
+const updateUserRoute = createRoute({
+  getParentRoute: () => dashboardLayout,
+  path: "updateUser",
   component: () => (
     <ProtectPages>
       <UpdateUserPage />
@@ -44,10 +52,18 @@ const updateUserRoute = createRoute({
   ),
 });
 
+const dashboardHome = createRoute({
+  getParentRoute: () => dashboardLayout,
+  path: "home",
+  component: DashboardHome,
+});
+
 // create the route tree that will contain the rootRoute and all the other routes as children
 export const routeTree = rootRoute.addChildren([
   landingPageRoute,
   registerPageRoute,
   loginPageRoute,
+  dashboardLayout,
+  dashboardHome,
   updateUserRoute,
 ]);
