@@ -14,6 +14,8 @@ import { Code, Group } from "@mantine/core";
 // import { MantineLogo } from "@mantinex/mantine-logo";
 import classes from "../styles/NavbarSimpleColored.module.css";
 
+import AvatarIcon from "./AvatarIcon";
+
 const data = [
   { link: "", label: "Notifications", icon: IconBellRinging },
   { link: "", label: "Billing", icon: IconReceipt2 },
@@ -80,7 +82,10 @@ function Navbar() {
       </div>
 
       {/* mobile */}
-      <div className='block h-0.5/12 md:hidden bg-blue-500'>mobile navbar</div>
+      <div className='flex justify-between items-center h-1/13 md:hidden bg-blue-400'>
+        Banter
+        <AvatarIcon />
+      </div>
     </>
   );
 }
