@@ -16,6 +16,8 @@ interface IUser extends Document {
   lastName: string;
   email: string;
   role: string;
+  avatarUrl: string;
+  avatarId: string;
 }
 
 const UserSchema = new Schema<IUser>(
@@ -43,6 +45,14 @@ const UserSchema = new Schema<IUser>(
     role: {
       type: String,
       enum: Object.values(roles),
+    },
+
+    avatarUrl: {
+      type: String,
+    },
+
+    avatarId: {
+      type: String,
     },
   },
   { timestamps: true },
