@@ -1,4 +1,4 @@
-import { TextInput, Button } from "@mantine/core";
+import { TextInput, Button, FileInput } from "@mantine/core";
 import { IconAt } from "@tabler/icons-react";
 import { Link } from "@tanstack/react-router";
 import axios from "axios";
@@ -13,15 +13,21 @@ function RegisterPage() {
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget); // create new formData with data from input targets
-    const data = Object.fromEntries(formData); // convert formData to objects
+    // const data = Object.fromEntries(formData); // convert formData to objects
     //check all password match
-    if (data.password1 !== data.password2) {
-      toast.error("Passwords do not match");
+    // if (data.password1 !== data.password2) {
+    //   toast.error("Passwords do not match");
+    // } else {
+    // create a new key for pwd to sent to API
+    // data.password = data.password1;
+    const password1 = formData.get("password1");
+    const password2 = formData.get("password2");
+    if (password1 !== password2) {
+      toast.error("passwords does not match");
     } else {
-      // create a new key for pwd to sent to API
-      data.password = data.password1;
+      formData.append("password", password1);
       try {
-        await axios.post("/api/auth/registerUser", data);
+        await axios.post("/api/auth/registerUser", formData);
         toast.success("User registered successfully");
         navigate({ to: "/login" });
         return null;
@@ -53,7 +59,15 @@ function RegisterPage() {
             className='flex flex-col w-4/12 gap-4 pb-3 pt-6'
             method='POST'
             onSubmit={handleSubmit}
+            encType='multipart/form-data'
           >
+            <TextInput
+              label='Input label'
+              description='Input description'
+              placeholder='Upload avatar'
+              name='avatarUrl'
+              type='file'
+            />
             <TextInput
               label='Username'
               placeholder='Input Username'
@@ -99,18 +113,26 @@ function RegisterPage() {
           <img src={landingImg} className='w-screen -mt-20' />
         </section>
         {/** login form */}
+
         {/** MOBILE */}
         <form
           method='post'
           //   autoComplete='on'
           className='md:hidden h-screen flex flex-col pt-8 bg-amber-400'
           onSubmit={handleSubmit}
+          encType='multipart/form-data'
         >
           <header className='text-[1.5rem] font-roboto font-semibold self-center'>
             Welcome to Banter!
           </header>
           <main className='flex flex-col py-10 px-10 gap-3'>
             {/* <span> */}
+            <FileInput
+              label='Input label'
+              description='Input description'
+              placeholder='Upload avatar'
+              name='avatarUrl'
+            />
             <TextInput
               label='Username'
               placeholder='Input Username'

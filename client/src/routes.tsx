@@ -10,6 +10,7 @@ import {
 } from "./utils";
 
 import ProtectPages from "./components/ProtectPages";
+import { userLoaderData } from "./loaderFn/userDataLoader";
 
 // Instantiate the root that will envelop all routes
 const rootRoute = createRootRoute({
@@ -40,6 +41,7 @@ const dashboardLayout = createRoute({
   getParentRoute: () => rootRoute,
   path: "dashboard",
   component: DashboardLayoutPage,
+  loader: () => userLoaderData(),
 });
 
 const updateUserRoute = createRoute({

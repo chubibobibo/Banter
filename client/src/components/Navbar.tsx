@@ -28,7 +28,6 @@ const data = [
 
 function Navbar() {
   const [active, setActive] = useState("Billing");
-
   const links = data.map((item) => (
     <a
       className={classes.link}
@@ -84,6 +83,7 @@ function Navbar() {
       {/* mobile */}
       <div className='flex justify-between items-center h-1/13 md:hidden bg-blue-400'>
         Banter
+        {/* {userData?.data?.loggedUser.email} */}
         <AvatarIcon />
       </div>
     </>
