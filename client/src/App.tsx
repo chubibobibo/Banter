@@ -21,6 +21,7 @@ function App() {
       <MantineProvider>
         <RouterProvider router={router} />
       </MantineProvider>
+
       <ToastContainer position='top-center' transition={Zoom} closeOnClick />
     </>
   );
