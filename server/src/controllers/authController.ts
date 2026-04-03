@@ -82,7 +82,7 @@ export const updateUser = async (req: Request, res: Response) => {
   if (!req.body) {
     throw new ExpressError("No data received", StatusCodes.BAD_REQUEST);
   }
-
+  console.log(req.body.username);
   const loggedUser = await UserModel.findById(req?.user?._id);
   if (!loggedUser) {
     throw new ExpressError("User does not exist", StatusCodes.NOT_FOUND);
@@ -101,10 +101,12 @@ export const updateUser = async (req: Request, res: Response) => {
   res.status(StatusCodes.OK).json({ message: "User updated", updatedUser });
 };
 
+//get logged user
 export const getLoggedUser = async (req: Request, res: Response) => {
-  if (!req.user) {
-    throw new ExpressError("User is not authorized", StatusCodes.UNAUTHORIZED);
-  }
+  // if (!req.user) {
+  //   throw new ExpressError("User is not authorized", StatusCodes.UNAUTHORIZED);
+  // }
+
   const loggedUser = await UserModel.findById(req.user?._id);
   if (!loggedUser) {
     throw new ExpressError("User is Unauthorized", StatusCodes.UNAUTHORIZED);
