@@ -15,6 +15,7 @@ import { Code, Group } from "@mantine/core";
 import classes from "../styles/NavbarSimpleColored.module.css";
 
 import AvatarIcon from "./AvatarIcon";
+import { useUserData } from "../hooks/useUserData";
 
 const data = [
   { link: "", label: "Notifications", icon: IconBellRinging },
@@ -28,6 +29,11 @@ const data = [
 
 function Navbar() {
   const [active, setActive] = useState("Billing");
+  const { data: userData } = useUserData();
+  const userFirstName = userData?.data?.loggedUser.firstName[0];
+  const userLastName = userData?.data?.loggedUser.lastName[0];
+  console.log(userData?.data.loggedUser.avatarUrl);
+
   const links = data.map((item) => (
     <a
       className={classes.link}
@@ -84,7 +90,16 @@ function Navbar() {
       <div className='flex justify-between items-center h-1/13 md:hidden bg-blue-400'>
         Banter
         {/* {userData?.data?.loggedUser.email} */}
-        <AvatarIcon />
+        {userData?.data?.loggedUser?.avatarUrl ? (
+          <AvatarIcon
+            imgUrl={
+              "https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-9.png"
+            }
+            isAvatar={true}
+          />
+        ) : (
+          <AvatarIcon imgUrl={userFirstName + userLastName} isAvatar={false} />
+        )}
       </div>
     </>
   );
