@@ -2,6 +2,8 @@ import { StatusCodes } from "http-status-codes";
 import { ExpressError } from "../expressError/expressError.js";
 import { UserModel } from "../models/UserModel.js";
 import { NextFunction, Request, Response } from "express";
+import cloudinary from "cloudinary";
+import fs from "fs";
 
 interface UserType {
   user: {
@@ -13,6 +15,20 @@ interface UserType {
 export const registerUser = async (req: Request, res: Response) => {
   if (!req.body) {
     throw new ExpressError("No data received", StatusCodes.BAD_REQUEST);
+  }
+  if (req.file) {
+    /** NOTE: req.file.path converted req.body from client side forms into objects containing image file */
+    const imageResponse = await cloudinary.v2.uploader.upload(req.file.path, {
+      quality: 7,
+      folder: "Banter",
+    });
+    //deletes image file from storage
+    fs.unlink(req.file.path, (err) => {
+      console.log(err);
+    });
+    console.log(imageResponse);
+    req.body.avatarUrl = imageResponse.secure_url;
+    req.body.avatarId = imageResponse.public_id;
   }
 
   try {
@@ -66,7 +82,7 @@ export const updateUser = async (req: Request, res: Response) => {
   if (!req.body) {
     throw new ExpressError("No data received", StatusCodes.BAD_REQUEST);
   }
-
+  console.log(req.body.username);
   const loggedUser = await UserModel.findById(req?.user?._id);
   if (!loggedUser) {
     throw new ExpressError("User does not exist", StatusCodes.NOT_FOUND);
@@ -83,6 +99,19 @@ export const updateUser = async (req: Request, res: Response) => {
     );
   }
   res.status(StatusCodes.OK).json({ message: "User updated", updatedUser });
+};
 
-  // const updatedUser = await
+//get logged user
+export const getLoggedUser = async (req: Request, res: Response) => {
+  // if (!req.user) {
+  //   throw new ExpressError("User is not authorized", StatusCodes.UNAUTHORIZED);
+  // }
+
+  const loggedUser = await UserModel.findById(req.user?._id);
+  if (!loggedUser) {
+    throw new ExpressError("User is Unauthorized", StatusCodes.UNAUTHORIZED);
+  }
+  res
+    .status(StatusCodes.OK)
+    .json({ message: `Logged user: ${loggedUser}`, loggedUser });
 };
