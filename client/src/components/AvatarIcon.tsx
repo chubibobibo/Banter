@@ -4,9 +4,16 @@ import { Drawer } from "@mantine/core";
 type AvatarType = {
   imgUrl: string;
   isAvatar: boolean;
+  bgId: number;
 };
 
-function AvatarIcon({ imgUrl, isAvatar }: AvatarType) {
+const bgColor = {
+  1: "bg-red-500",
+  2: "bg-yellow-500",
+  3: "bg-green-500",
+};
+
+function AvatarIcon({ imgUrl, isAvatar, bgId }: AvatarType) {
   const [opened, { open, close }] = useDisclosure(false);
   return (
     <main className='flex'>
@@ -29,7 +36,9 @@ function AvatarIcon({ imgUrl, isAvatar }: AvatarType) {
           onClick={open}
         />
       ) : (
-        <div className='w-10 h-10 rounded-3xl bg-white flex justify-center items-center font-bold'>
+        <div
+          className={`${bgColor[bgId]} w-10 h-10 rounded-3xl flex justify-center items-center font-bold`}
+        >
           {imgUrl.toUpperCase()}
         </div>
       )}
@@ -37,5 +46,3 @@ function AvatarIcon({ imgUrl, isAvatar }: AvatarType) {
   );
 }
 export default AvatarIcon;
-
-// 'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-9.png'

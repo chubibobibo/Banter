@@ -1,8 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { getLoggedUser } from "../apis/getLoggedUser";
 
+//** @useSuspenseQuery allows resolution of query  */
 export const useUserData = () => {
-  return useQuery({
+  return useSuspenseQuery({
     queryKey: ["userData"],
     queryFn: getLoggedUser,
     staleTime: 1000 * 60 * 5,

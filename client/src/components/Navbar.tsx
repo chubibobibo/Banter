@@ -26,13 +26,18 @@ const data = [
   { link: "", label: "Authentication", icon: Icon2fa },
   { link: "", label: "Other Settings", icon: IconSettings },
 ];
+// const randomColorNum = () => {
+//   return Math.floor(Math.random() * (4 - 1) + 1);
+// };
 
+const bgColorId = Math.floor(Math.random() * (4 - 1) + 1);
 function Navbar() {
+  // console.log(bgColorId);
+
   const [active, setActive] = useState("Billing");
   const { data: userData } = useUserData();
-  const userFirstName = userData?.data?.loggedUser.firstName[0];
-  const userLastName = userData?.data?.loggedUser.lastName[0];
-  console.log(userData?.data.loggedUser.avatarUrl);
+  const userFirstName = userData?.data?.loggedUser?.firstName[0];
+  const userLastName = userData?.data?.loggedUser?.lastName[0];
 
   const links = data.map((item) => (
     <a
@@ -89,17 +94,23 @@ function Navbar() {
       {/* mobile */}
       <div className='flex justify-between items-center h-1/13 md:hidden bg-blue-400'>
         Banter
-        {/* {userData?.data?.loggedUser.email} */}
-        {userData?.data?.loggedUser?.avatarUrl ? (
-          <AvatarIcon
-            imgUrl={
-              "https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-9.png"
-            }
-            isAvatar={true}
-          />
-        ) : (
-          <AvatarIcon imgUrl={userFirstName + userLastName} isAvatar={false} />
-        )}
+        <section className='pr-2'>
+          {userData?.data?.loggedUser?.avatarUrl ? (
+            <AvatarIcon
+              imgUrl={
+                "https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-9.png"
+              }
+              isAvatar={true}
+              bgId={bgColorId}
+            />
+          ) : (
+            <AvatarIcon
+              imgUrl={userFirstName + userLastName}
+              isAvatar={false}
+              bgId={bgColorId}
+            />
+          )}
+        </section>
       </div>
     </>
   );
