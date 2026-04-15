@@ -7,7 +7,11 @@ type AvatarType = {
   bgId: number;
 };
 
-const bgColor = {
+interface BgColorType {
+  [key: number]: string;
+}
+
+const bgColor: BgColorType = {
   1: "bg-red-500",
   2: "bg-yellow-500",
   3: "bg-green-500",

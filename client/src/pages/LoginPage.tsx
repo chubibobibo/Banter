@@ -16,8 +16,8 @@ function LoginPage() {
     try {
       const loggedUser = await axios.post("/api/auth/login", data);
       toast.success("User Successfully logged in");
-      console.log(loggedUser);
-      navigate({ to: "/" });
+      // console.log(loggedUser);
+      navigate({ to: "/dashboard/home" });
       return loggedUser;
     } catch (err) {
       if (isAxiosError(err)) {
