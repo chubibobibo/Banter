@@ -4,9 +4,10 @@ import { useState } from "react";
 
 interface PropsType {
   name: string;
+  label: string;
 }
 
-function PasswordFieldInput({ name }: PropsType) {
+function PasswordFieldInput({ name, label }: PropsType) {
   const [isVisible, setIsVisible] = useState(true);
 
   const handlePwdClick = () => {
@@ -20,7 +21,7 @@ function PasswordFieldInput({ name }: PropsType) {
   return (
     <>
       <TextInput
-        label='Password'
+        label={label}
         placeholder='Input Password'
         type={isVisible ? "password" : "text"}
         rightSection={isVisible ? eyefilled : eyeclosed}

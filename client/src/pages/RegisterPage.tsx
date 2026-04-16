@@ -22,14 +22,18 @@ function RegisterPage() {
     // data.password = data.password1;
     const password1 = formData.get("password1");
     const password2 = formData.get("password2");
+    const username = formData.get("username");
+    const loginUserData = { username: username, password: password1 };
     if (password1 !== password2) {
       toast.error("passwords does not match");
     } else {
-      formData.append("password", password1);
+      formData.append("password", password1 as string); // cast as string
       try {
         await axios.post("/api/auth/registerUser", formData);
         toast.success("User registered successfully");
-        navigate({ to: "/login" });
+        // navigate({ to: "/login" });
+        await axios.post("/api/auth/login", loginUserData);
+        navigate({ to: "/dashboard/home" });
         return null;
       } catch (err) {
         if (axios.isAxiosError(err)) {
@@ -48,7 +52,7 @@ function RegisterPage() {
 
   return (
     <>
-      <div className='flex flex-col h-screen md:grid md:grid-cols-2 md:h-screen'>
+      <div className='flex flex-col h-screen md:grid md:grid-cols-2'>
         <section className='hidden md:flex md:flex-col md:items-center md:gap-5 bg-amber-400 '>
           <header className='flex justify-center w-screen text-5xl font-roboto pt-40 text-gray-600'>
             Welcome to Banter
@@ -56,14 +60,13 @@ function RegisterPage() {
           {/* <section> */}
           {/* //DESKTOP */}
           <form
-            className='flex flex-col w-4/12 gap-4 pb-3 pt-6'
+            className='flex flex-col w-4/12 gap-4 pt-6'
             method='POST'
             onSubmit={handleSubmit}
             encType='multipart/form-data'
           >
             <TextInput
-              label='Input label'
-              description='Input description'
+              label='Upload avatar'
               placeholder='Upload avatar'
               name='avatarUrl'
               type='file'
@@ -92,8 +95,13 @@ function RegisterPage() {
               name='email'
               required
             />
-            {<PasswordFieldInput name='password1' />}
-            {<PasswordFieldInput name='password2' />}
+            {<PasswordFieldInput name='password1' label={"Password"} />}
+            {
+              <PasswordFieldInput
+                name='password2'
+                label={"Re-enter Password"}
+              />
+            }
             <section className='flex justify-start'>
               <Button type='submit' justify='center'>
                 Register
@@ -109,7 +117,7 @@ function RegisterPage() {
         </section>
         {/* </section> */}
         {/** Logo side */}
-        <section className='flex items-center pt-15 bg-blue-400 '>
+        <section className='md:h-screen flex items-center pt-15 bg-blue-400 '>
           <img src={landingImg} className='w-screen -mt-20' />
         </section>
         {/** login form */}
@@ -118,7 +126,7 @@ function RegisterPage() {
         <form
           method='post'
           //   autoComplete='on'
-          className='md:hidden h-screen flex flex-col pt-8 bg-amber-400'
+          className='md:hidden flex flex-col pt-8 bg-amber-400'
           onSubmit={handleSubmit}
           encType='multipart/form-data'
         >
@@ -166,8 +174,11 @@ function RegisterPage() {
               required
             />
             {/* </span> */}
-            {PasswordFieldInput({ name: "password1" })}
-            {PasswordFieldInput({ name: "password2" })}
+            {PasswordFieldInput({ name: "password1", label: "Password" })}
+            {PasswordFieldInput({
+              name: "password2",
+              label: "re-enter Password",
+            })}
             <section className='pt-3 flex flex-col items-center'>
               <Button fullWidth type='submit'>
                 Register
@@ -175,7 +186,7 @@ function RegisterPage() {
             </section>
           </main>
         </form>
-        <p className='pt-2 bg-amber-400 flex justify-center'>
+        <p className='hidden pt-2 bg-amber-400 flex justify-center'>
           Already have an account? {"  "}
           <Link to='/login' className='text-blue-800 font-semibold pb-4'>
             Login
