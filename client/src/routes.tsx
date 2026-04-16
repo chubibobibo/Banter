@@ -10,7 +10,6 @@ import {
 } from "./utils";
 
 import ProtectPages from "./components/ProtectPages";
-import Logout from "./pages/Logout";
 
 // Instantiate the root that will envelop all routes
 const rootRoute = createRootRoute({
@@ -59,12 +58,6 @@ const dashboardHome = createRoute({
   component: DashboardHome,
 });
 
-const logoutRoute = createRoute({
-  getParentRoute: () => dashboardLayout,
-  path: "logout",
-  component: Logout,
-});
-
 // create the route tree that will contain the rootRoute and all the other routes as children
 export const routeTree = rootRoute.addChildren([
   landingPageRoute,
@@ -73,5 +66,4 @@ export const routeTree = rootRoute.addChildren([
   dashboardLayout,
   dashboardHome,
   updateUserRoute,
-  logoutRoute,
 ]);

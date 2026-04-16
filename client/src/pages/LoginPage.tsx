@@ -11,6 +11,7 @@ function LoginPage() {
   // e: typed as a submit event from an HTML form element
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
+    //create new form using entries on all inputs
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData);
     try {
@@ -51,7 +52,9 @@ function LoginPage() {
                 required
               />
             </span>
-            <span>{PasswordFieldInput({ name: "password" })}</span>
+            <span>
+              {PasswordFieldInput({ name: "password", label: "Password" })}
+            </span>
             <section>
               <Button type='submit' justify='center'>
                 Login
@@ -93,7 +96,9 @@ function LoginPage() {
                 required
               />
             </span>
-            <span>{PasswordFieldInput({ name: "password" })}</span>
+            <span>
+              {PasswordFieldInput({ name: "password", label: "Password" })}
+            </span>
             <span className='pt-3 flex flex-col items-center'>
               <Button fullWidth type='submit'>
                 Login

@@ -16,6 +16,9 @@ import classes from "../styles/NavbarSimpleColored.module.css";
 
 import AvatarIcon from "./AvatarIcon";
 import { useUserData } from "../hooks/useUserData";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { useNavigate } from "@tanstack/react-router";
 
 const data = [
   { link: "", label: "Notifications", icon: IconBellRinging },
@@ -34,6 +37,20 @@ function Navbar() {
   console.log(userData);
   const userFirstName = userData?.data?.loggedUser?.firstName[0];
   const userLastName = userData?.data?.loggedUser?.lastName[0];
+
+  // testing handling logout
+  const navigate = useNavigate({ from: "/dashboard/home" });
+  const handleLogout = async () => {
+    try {
+      const result = await axios.post("/api/auth/logout");
+      toast.success("User logged out");
+      if (result.status) {
+        navigate({ to: "/login" });
+      }
+    } catch (err) {
+      toast.error(err as string);
+    }
+  };
 
   const links = data.map((item) => (
     <a
@@ -90,9 +107,7 @@ function Navbar() {
       {/* mobile */}
       <div className='flex justify-between items-center h-1/13 md:hidden bg-blue-400'>
         Banter
-        <form action={"/dashboard/logout"}>
-          <button type='submit'>Logout</button>
-        </form>
+        <p onClick={handleLogout}>Logout</p>
         <section className='pr-2'>
           {userData?.data?.loggedUser?.avatarUrl ? (
             <AvatarIcon
