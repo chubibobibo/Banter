@@ -15,14 +15,13 @@ function RegisterPage() {
     const formData = new FormData(e.currentTarget); // create new formData with data from input targets
     // const data = Object.fromEntries(formData); // convert formData to objects
     //check all password match
-    // if (data.password1 !== data.password2) {
-    //   toast.error("Passwords do not match");
-    // } else {
     // create a new key for pwd to sent to API
-    // data.password = data.password1;
     const password1 = formData.get("password1");
     const password2 = formData.get("password2");
     const username = formData.get("username");
+
+    /**@loginUserData we created an object containing the username and password from the formData, which we then send in our axios request */
+    /** NOTE that axios takes an object as the parameter for the request */
     const loginUserData = { username: username, password: password1 };
     if (password1 !== password2) {
       toast.error("passwords does not match");
