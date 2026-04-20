@@ -19,6 +19,7 @@ import { useUserData } from "../hooks/useUserData";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "@tanstack/react-router";
+import { useQueryClient } from "@tanstack/react-query";
 
 const data = [
   { link: "", label: "Notifications", icon: IconBellRinging },
@@ -32,9 +33,11 @@ const data = [
 
 const bgColorId = Math.floor(Math.random() * (4 - 1) + 1);
 function Navbar() {
+  /** @queryClient using use QueryClient we can invalidate the query cache when logging off (using invalidateQueries) */
+  const queryClient = useQueryClient();
   const [active, setActive] = useState("Billing");
   const { data: userData } = useUserData();
-  console.log(userData);
+  // console.log(userData);
   const userFirstName = userData?.data?.loggedUser?.firstName[0];
   const userLastName = userData?.data?.loggedUser?.lastName[0];
 
@@ -46,6 +49,8 @@ function Navbar() {
       toast.success("User logged out");
       if (result.status) {
         navigate({ to: "/login" });
+        // Invalidates the queryKey
+        queryClient.invalidateQueries({ queryKey: ["userData"] });
       }
     } catch (err) {
       toast.error(err as string);

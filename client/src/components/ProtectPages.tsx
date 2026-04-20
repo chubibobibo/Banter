@@ -28,7 +28,7 @@ function ProtectPages({ children }: { children: ReactNode }) {
   if (isLoading) {
     return null;
   }
-  console.log(loggedUserData);
+  // console.log(loggedUserData);
   return <>{loggedUserData ? children : navigate({ to: "/login" })}</>;
 }
 export default ProtectPages;
