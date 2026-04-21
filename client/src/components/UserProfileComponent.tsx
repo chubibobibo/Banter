@@ -1,4 +1,5 @@
 import { Avatar, Button, Paper, Text } from "@mantine/core";
+import { logoutHandler } from "../utils/logoutHandler";
 
 function UserProfileComponent({
   image,
@@ -32,14 +33,22 @@ function UserProfileComponent({
         )}
 
         <Text ta='center' fz='lg' fw={500} mt='md'>
-          {loggedUser}
+          {loggedUser.toUpperCase()}
         </Text>
         <Text ta='center' c='dimmed' fz='sm'>
           {loggedUserEmail}
         </Text>
-
         <Button variant='default' fullWidth mt='md'>
-          Send message
+          Edit Profile
+        </Button>
+        <Button
+          variant='filled'
+          color='red'
+          fullWidth
+          mt='md'
+          onClick={logoutHandler}
+        >
+          Logout
         </Button>
       </Paper>
     </>
