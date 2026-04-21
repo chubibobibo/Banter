@@ -37,7 +37,6 @@ function AvatarIcon({ imgUrl, isAvatar, bgId }: AvatarType) {
         overlayProps={{ backgroundOpacity: 0.5, blur: 5 }}
       >
         {/* Drawer content */}
-        {/* <p>Logout</p> */}
         {
           <UserProfileComponent
             image={userData.avatarUrl}
