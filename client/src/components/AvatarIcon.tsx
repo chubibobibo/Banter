@@ -30,7 +30,6 @@ function AvatarIcon({ imgUrl, isAvatar, bgId }: AvatarType) {
       <Drawer
         opened={opened}
         onClose={close}
-        // title={userData?.username}
         position='right'
         offset={20}
         radius='md'
@@ -42,6 +41,7 @@ function AvatarIcon({ imgUrl, isAvatar, bgId }: AvatarType) {
             image={userData.avatarUrl}
             loggedUser={userData.username}
             loggedUserEmail={userData.email}
+            modalClose={close}
           />
         }
       </Drawer>
