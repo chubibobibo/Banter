@@ -37,7 +37,7 @@ function Navbar() {
   const queryClient = useQueryClient();
   const [active, setActive] = useState("Billing");
   const { data: userData } = useUserData();
-  // console.log(userData);
+  console.log(userData);
   const userFirstName = userData?.data?.loggedUser?.firstName[0];
   const userLastName = userData?.data?.loggedUser?.lastName[0];
 
@@ -45,13 +45,14 @@ function Navbar() {
   const navigate = useNavigate({ from: "/dashboard/home" });
   const handleLogout = async () => {
     try {
-      const result = await axios.post("/api/auth/logout");
+      await axios.post("/api/auth/logout");
       toast.success("User logged out");
-      if (result.status) {
-        navigate({ to: "/login" });
-        // Invalidates the queryKey
-        queryClient.invalidateQueries({ queryKey: ["userData"] });
-      }
+      // if (result.status) {
+      navigate({ to: "/login" });
+      // Invalidates the queryKey
+      // Removes the cached userData to avoid showing it after logging out
+      await queryClient.invalidateQueries({ queryKey: ["userData"] });
+      // }
     } catch (err) {
       toast.error(err as string);
     }
