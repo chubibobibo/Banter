@@ -94,11 +94,18 @@ function RegisterPage() {
               name='email'
               required
             />
-            {<PasswordFieldInput name='password1' label={"Password"} />}
+            {
+              <PasswordFieldInput
+                name='password1'
+                label={"Password"}
+                isRequired={true}
+              />
+            }
             {
               <PasswordFieldInput
                 name='password2'
                 label={"Re-enter Password"}
+                isRequired={true}
               />
             }
             <section className='flex justify-start'>
@@ -173,11 +180,16 @@ function RegisterPage() {
               required
             />
             {/* </span> */}
-            {PasswordFieldInput({ name: "password1", label: "Password" })}
-            {PasswordFieldInput({
-              name: "password2",
-              label: "re-enter Password",
-            })}
+            <PasswordFieldInput
+              name='password1'
+              label='enter Password'
+              isRequired={true}
+            />
+            <PasswordFieldInput
+              name='password2'
+              label='Re-enter password'
+              isRequired={true}
+            />
             <section className='pt-3 flex flex-col items-center'>
               <Button fullWidth type='submit'>
                 Register

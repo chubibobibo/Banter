@@ -6,6 +6,7 @@ interface logoutHandlerType {
   navigate: (option: { to: string }) => void;
 }
 
+/** @logoutHandler used in the logout functionality in */
 /** logoutHandler accepts the navigate props from UserProfileComponent. This allow the use of the useNavigate hook outside a function component. */
 export const logoutHandler = async ({ navigate }: logoutHandlerType) => {
   try {

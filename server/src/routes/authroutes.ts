@@ -2,6 +2,7 @@ import express from "express";
 import {
   getLoggedUser,
   loginUser,
+  logoutUser,
   registerUser,
   updateUser,
 } from "../controllers/authController.js";
@@ -28,6 +29,13 @@ router.post(
   registerUser,
 );
 router.post("/login", limiter, loginValidation, loginMiddleware, loginUser);
-router.patch("/updateUser", isAuthenticated, updateUserValidation, updateUser);
+router.post("/logout", logoutUser);
+router.patch(
+  "/updateUser",
+  upload.single("avatarUrl"),
+  isAuthenticated,
+  updateUserValidation,
+  updateUser,
+);
 
 export default router;

@@ -2,8 +2,6 @@ import {
   Button,
   Container,
   Paper,
-
-  // Text,
   TextInput,
   FileInput,
   Title,
@@ -11,6 +9,9 @@ import {
 import classes from "../styles/AuthenticationTitle.module.css";
 import PasswordFieldInput from "../components/PasswordFieldInput";
 import { IconAt } from "@tabler/icons-react";
+import axios, { isAxiosError } from "axios";
+import { toast } from "react-toastify";
+import { useNavigate } from "@tanstack/react-router";
 
 import { useUserData } from "../hooks/useUserData";
 
@@ -18,7 +19,26 @@ function UpdateUserPage() {
   const { data } = useUserData();
   const userData = data.data.loggedUser;
   const icon = <IconAt size={16} />;
-  // console.log(userData);
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    try {
+      await axios.patch("/api/auth/updateUser", formData);
+      navigate({ to: "/dashboard/home" });
+      toast.success("Successfully updated profile");
+    } catch (err) {
+      console.log(err);
+      if (isAxiosError(err)) {
+        toast.error(
+          Array.isArray(err)
+            ? err?.response?.data?.message[0]
+            : err?.response?.data?.message,
+        );
+      }
+    }
+  };
   return (
     <>
       <Container size={420} my={40}>
@@ -28,10 +48,10 @@ function UpdateUserPage() {
 
         <Paper withBorder shadow='sm' p={22} mt={30} radius='md'>
           <form
-            method='post'
+            method='PATCH'
             //   autoComplete='on'
             className='md:hidden flex flex-col pt-8 bg-amber-400'
-            // onSubmit={handleSubmit}
+            onSubmit={handleSubmit}
             encType='multipart/form-data'
           >
             <header className='text-[1.5rem] font-roboto font-semibold self-center'>
@@ -82,14 +102,20 @@ function UpdateUserPage() {
                 required
               />
               {/* </span> */}
-              {PasswordFieldInput({ name: "password1", label: "Password" })}
-              {PasswordFieldInput({
-                name: "password2",
-                label: "re-enter Password",
-              })}
+              <PasswordFieldInput
+                name='password1'
+                label='Password'
+                isRequired={false}
+              />
+              <PasswordFieldInput
+                name='password2'
+                label='Re-enter Password'
+                isRequired={false}
+              />
+
               <section className='pt-3 flex flex-col items-center'>
                 <Button fullWidth type='submit'>
-                  Register
+                  Update Profile
                 </Button>
               </section>
             </main>
