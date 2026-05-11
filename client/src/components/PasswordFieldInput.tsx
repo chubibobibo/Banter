@@ -5,9 +5,10 @@ import { useState } from "react";
 interface PropsType {
   name: string;
   label: string;
+  isRequired: boolean;
 }
 
-function PasswordFieldInput({ name, label }: PropsType) {
+function PasswordFieldInput({ name, label, isRequired }: PropsType) {
   const [isVisible, setIsVisible] = useState(true);
 
   const handlePwdClick = () => {
@@ -26,7 +27,7 @@ function PasswordFieldInput({ name, label }: PropsType) {
         type={isVisible ? "password" : "text"}
         rightSection={isVisible ? eyefilled : eyeclosed}
         name={name}
-        required
+        required={isRequired}
         className='cursor-pointer'
       />
     </>

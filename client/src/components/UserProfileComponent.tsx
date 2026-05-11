@@ -13,9 +13,8 @@ function UserProfileComponent({
   loggedUserEmail: string;
   modalClose: MouseEventHandler<HTMLButtonElement>;
 }) {
-  //   console.log(userName);
+  /** @navigate will be passed as props to the logoutHandler fn that will allow us to navigate outside the component function. */
   const navigate = useNavigate();
-  //   const router = useRouter();
   const navigateToProfile = () => {
     navigate({ to: "/dashboard/updateUser" });
   };

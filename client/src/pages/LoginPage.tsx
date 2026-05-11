@@ -53,7 +53,12 @@ function LoginPage() {
               />
             </span>
             <span>
-              {PasswordFieldInput({ name: "password", label: "Password" })}
+              <PasswordFieldInput
+                name='password'
+                label="'Password"
+                isRequired={true}
+              />
+              {/* {PasswordFieldInput({ name: "password", label: "Password" })} */}
             </span>
             <section>
               <Button type='submit' justify='center'>
@@ -97,7 +102,11 @@ function LoginPage() {
               />
             </span>
             <span>
-              {PasswordFieldInput({ name: "password", label: "Password" })}
+              <PasswordFieldInput
+                name='password'
+                label='Password'
+                isRequired={true}
+              />
             </span>
             <span className='pt-3 flex flex-col items-center'>
               <Button fullWidth type='submit'>
