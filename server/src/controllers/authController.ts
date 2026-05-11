@@ -26,7 +26,7 @@ export const registerUser = async (req: Request, res: Response) => {
     fs.unlink(req.file.path, (err) => {
       console.log(err);
     });
-    console.log(imageResponse);
+
     req.body.avatarUrl = imageResponse.secure_url;
     req.body.avatarId = imageResponse.public_id;
   }
@@ -82,7 +82,20 @@ export const updateUser = async (req: Request, res: Response) => {
   if (!req.body) {
     throw new ExpressError("No data received", StatusCodes.BAD_REQUEST);
   }
-  console.log(req.body.username);
+
+  if (req.file) {
+    const response = await cloudinary.v2.uploader.upload(req.file.path, {
+      quality: 7,
+      folder: "Banter",
+    });
+    //Removes req.file(image) from local folder
+    fs.unlink(req.file.path, (err) => {
+      console.log(err);
+    });
+    req.body.avatarUrl = response.secure_url;
+    req.body.avatarId = response.public_id;
+  }
+  // console.log(req.body.username);
   const loggedUser = await UserModel.findById(req?.user?._id);
   if (!loggedUser) {
     throw new ExpressError("User does not exist", StatusCodes.NOT_FOUND);
@@ -103,10 +116,6 @@ export const updateUser = async (req: Request, res: Response) => {
 
 //get logged user
 export const getLoggedUser = async (req: Request, res: Response) => {
-  // if (!req.user) {
-  //   throw new ExpressError("User is not authorized", StatusCodes.UNAUTHORIZED);
-  // }
-
   const loggedUser = await UserModel.findById(req.user?._id);
   if (!loggedUser) {
     throw new ExpressError("User is Unauthorized", StatusCodes.UNAUTHORIZED);
@@ -114,4 +123,18 @@ export const getLoggedUser = async (req: Request, res: Response) => {
   res
     .status(StatusCodes.OK)
     .json({ message: `Logged user: ${loggedUser}`, loggedUser });
+};
+
+// Logging out
+export const logoutUser = async (req: Request, res: Response) => {
+  //passportjs logout method
+  req.logout((err) => {
+    if (err) {
+      throw new ExpressError(
+        `Something went wrong: ${err}`,
+        StatusCodes.INTERNAL_SERVER_ERROR,
+      );
+    }
+    res.status(StatusCodes.OK).json({ message: "User logged out" });
+  });
 };
