@@ -83,6 +83,23 @@ export const updateUser = async (req: Request, res: Response) => {
     throw new ExpressError("No data received", StatusCodes.BAD_REQUEST);
   }
 
+  // searching logged user
+  const loggedUser = await UserModel.findById(req?.user?._id);
+  if (!loggedUser) {
+    throw new ExpressError("User does not exist", StatusCodes.NOT_FOUND);
+  }
+
+  // deleting image in cloudinary if user has existing avatar
+  if (loggedUser.avatarId) {
+    console.log(loggedUser.avatarId);
+    try {
+      await cloudinary.v2.uploader.destroy(loggedUser.avatarId);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  // uploading images using cloudinary API if req.file from multer exists
   if (req.file) {
     const response = await cloudinary.v2.uploader.upload(req.file.path, {
       quality: 7,
@@ -96,10 +113,7 @@ export const updateUser = async (req: Request, res: Response) => {
     req.body.avatarId = response.public_id;
   }
   // console.log(req.body.username);
-  const loggedUser = await UserModel.findById(req?.user?._id);
-  if (!loggedUser) {
-    throw new ExpressError("User does not exist", StatusCodes.NOT_FOUND);
-  }
+
   const updatedUser = await UserModel.findByIdAndUpdate(
     loggedUser._id,
     req.body,
